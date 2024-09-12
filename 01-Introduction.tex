@@ -1,0 +1,228 @@
+\documentclass[12pt]{article}
+\usepackage[top=1in,bottom=1in,left=0.75in,right=0.75in,centering]{geometry}
+\usepackage{fancyhdr}
+\usepackage{epsfig}
+\usepackage[pdfborder={0 0 0}]{hyperref}
+\usepackage{palatino}
+\usepackage{wrapfig}
+\usepackage{lastpage}
+\usepackage{color}
+\usepackage{ifthen}
+\usepackage[table]{xcolor}
+\usepackage{graphicx,type1cm,eso-pic,color}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{wasysym}
+\usepackage{amssymb}
+
+\def\course{CS 3120: Discrete Math and Theory II}
+\def\homework{What is a computer? Proof Techniques}
+\def\semester{Fall 2024}
+
+\newboolean{solution}
+\setboolean{solution}{false}
+
+% add watermark if it's a solution exam
+% see http://jeanmartina.blogspot.com/2008/07/latex-goodie-how-to-watermark-things-in.html
+\makeatletter
+\AddToShipoutPicture{%
+\setlength{\@tempdimb}{.5\paperwidth}%
+\setlength{\@tempdimc}{.5\paperheight}%
+\setlength{\unitlength}{1pt}%
+\put(\strip@pt\@tempdimb,\strip@pt\@tempdimc){%
+\ifthenelse{\boolean{solution}}{
+\makebox(0,0){\rotatebox{45}{\textcolor[gray]{0.95}%
+{\fontsize{5cm}{3cm}\selectfont{\textsf{Solution}}}}}%
+}{}
+}}
+\makeatother
+
+\pagestyle{fancy}
+
+\fancyhf{}
+\lhead{\course}
+\chead{Page \thepage\ of \pageref{LastPage}}
+\rhead{\semester}
+%\cfoot{\Large (the bubble footer is automatically inserted into this space)}
+
+\setlength{\headheight}{14.5pt}
+
+\newenvironment{itemlist}{
+\begin{itemize}
+\setlength{\itemsep}{0pt}
+\setlength{\parskip}{0pt}}
+{\end{itemize}}
+
+\newenvironment{numlist}{
+\begin{enumerate}
+\setlength{\itemsep}{0pt}
+\setlength{\parskip}{0pt}}
+{\end{enumerate}}
+
+\newcounter{pagenum}
+\setcounter{pagenum}{1}
+\newcommand{\pageheader}[1]{
+\clearpage\vspace*{-0.4in}\noindent{\large\bf{Page \arabic{pagenum}: {#1}}}
+\addtocounter{pagenum}{1}
+\cfoot{}
+}
+
+\newcounter{quesnum}
+\setcounter{quesnum}{1}
+\newcommand{\question}[2][??]{
+\begin{list}{\labelitemi}{\leftmargin=2em}
+\item [\arabic{quesnum}.] {} {#2}
+\end{list}
+\addtocounter{quesnum}{1}
+}
+
+
+\definecolor{red}{rgb}{1.0,0.0,0.0}
+\newcommand{\answer}[2][??]{
+\ifthenelse{\boolean{solution}}{
+\color{red} #2 \color{black}}
+{\vspace*{#1}}
+}
+
+\definecolor{blue}{rgb}{0.0,0.0,1.0}
+
+\begin{document}
+
+\section*{\homework}
+
+\question[3]{
+Consider the formal descriptions of each set below. For each, write a short informal English description of each set.
+}
+
+\begin{itemize}
+      \item $\{n | \exists_{m \in \mathbb{N}} : n=2m\}$ The set of all Natural numbers n such that n = 2m, which is the set of all non negative even numbers, including 0.
+      \item $\{n | \exists_{m \in \mathbb{N}} : n=2m \wedge \exists_{k \in \mathbb{N}} : n=3k \}$ There exists non negative numbers m and k in the Natural Numbers such that a value non negative value n, from the Natural Numbers, is equal to 2m and 3k, therefore the set of all non negative n that are divisible by 6.
+      \item $\{ w \ | \ w \in \{0,1\}^* \wedge w=w^R \}$ \emph{**Note that $w^R$ is the reverse string of $w$ (e.g., 001 becomes 100)} The set of all w such that the reverse of the string w is equivalent to w itself for all possible lengths of strings formed by $\{0,1\}$.
+ 
+      \item $\{ n | n \in \mathbb{Z} \wedge n=n+1 \}$ The set of values n such that they are integers and n+1 is equal to n itself. This the empty set as there is no n in $\{\mathbb{Z}\}$ where the addition of 1 will be equivalent.
+\end{itemize}
+
+\vspace{12pt}
+
+\question[3]{
+Similarly, for each informal description of the following languages, write out a formal version of the same set (in similar detail to what you see in the question above).
+}
+
+\begin{itemize}
+      \item The set containing all integers greater than 5
+    $\{ n | n \in \mathbb{Z} \wedge n>5 \}$
+      \item The set containing all bitstrings that contain 010 somewhere within them
+    $\{ w \ | \ w \in \{0,1\}^* \wedge (\exists j (w[j] = 0 \wedge w[j+1] = 1 \wedge w[j+2] = 0)) \}$ %there exists an index j such that value at j =0, j+1  = 1 and j+2=0.
+      \item The set containing all bitstrings that are odd
+    $\{ w \ | \ w \in \{0,1\}^* \wedge (\exists j(w[j] = 1 \wedge j=|w|-1)) \}$ % checking if there is a j which is the last index of the string and that substring is equal to 1
+\end{itemize}
+
+\vspace{12pt}
+
+\question[3]{
+\textbf{Find and describe the error in the following direct proof that 2=1:} Consider the equation $a=b$. Multiply both sides by $a$ to obtain $a^2=ab$. Subtract $b^2$ from both sides to get $a^2-b^2=ab-b^2$. Now factor each side, $(a+b)(a-b)=b(a-b)$ and divide each side by $(a-b)$ to get $a+b=b$. Finally, let $a=b=1$ and substitute to get $2=1$.
+}
+
+The error in this direct proof lies in the step that involves factoring the equation into $(a+b)(a-b)=b(a-b)$ and dividing each side by $(a-b)$ to get $a+b=b$. Given that this proof begins by considering the equation $a=b$, and it can be rewritten to convey that $a-b = 0$, this step that involves dividing each side by $(a-b)$ to get $a+b=b$, then, translates to dividing each side by $0$ to get $a+b=b$. In mathematics, dividing by zero is undefined, thereby making this step invalid.\\
+\\
+Thus, this direct proof incorrectly uses division by zero, which is the fundamental error leading to the incorrect conclusion that $2=1$.
+
+\vspace{12pt}
+
+\question[3]{
+\textbf{Find and describe the error in the following inductive proof that all pairs of UVa students have worked together on at least one project:} First, order the students alphabetically by computing id and number them $0$ to $n-1$.\\
+
+\\
+\textbf{Base case}: consider $n=1$. With one student, they theorem is trivially true. There is only one student and thus they have worked with every other student on at least one project.\\
+\\
+\textbf{Inductive hypothesis}: Now assume that the claim is true for any arbitrary number of students $n \leq k$.\\
+\\
+\textbf{Inductive step}: Now try to prove it still holds for $n=k+1$ students. Take the $k+1$ students and arbitrarily remove one. By the inductive hypothesis, the remaining $k$ students have all worked on at least one project together. Now do the same but remove a different single student. Again, by the inductive hypothesis the remaining $k$ students have all worked on at least one project together. Do this one last time with a third unique student being remove. Because we removed a different single student each of the three times, all of the $k+1$ students must have worked together on at least one project because every pair of students was in at least one of the subsets of size $k$.\\
+\\
+In your description, make sure to emphasize not just the error in logic, but the properties of inductive proofs that must be carefully followed in order for the proof to be valid. In other words, we are NOT looking for a purely intuitive answer.}
+
+The error in this inductive proof lies in the inductive step, specifically in the rationale that arbitrarily removing one student at a time out of $k+1$ students proves that all of the $k+1$ students have worked on at least one project together. For context, given that the proof outlines the assumption that, for any arbitrary number of students $n \leq k$, the original claim holds, meaning all pairs of students have worked together on at least one project, the inductive step attempts to build upon this idea in arguing that, by taking $k+1$ students,  arbitrarily removing one student, applying the inductive hypothesis to the remaining $k$ students, and repeating this process for different students, it can be concluded that all of the $k+1$ students must have worked on at least one project together.\\
+\\
+This rationale incorrectly assumes that, because every subset of $k$ students has worked on at least one project together, the entire set of $k+1$ students must have worked on at least one project together. Specifically, this inductive step overlooks the possibility that the  student removed in each step may not have worked with the other students, meaning the required pairwise collaborations between all $k+1$ students are not necessarily guaranteed. In inductive proofs, it is critical that the inductive step correctly references or leverages the assumed truth of the inductive hypothesis and applies it to the next case, which, in this instance, means doing so from $k$ to $k+1$ students. However, the inductive step in this proof fails to do so, as removing individual students, in any case, only shows that the remaining $k$ students have worked together on at least one project together, but does not prove that the student who was removed has worked with all the remaining students. This failure to ensure pairwise coverage across all of the $k+1$ students, then, violates the requirement that all pairs of students must be considered in the inductive step.\\
+\\
+Thus, this inductive proof incorrectly generalizes the hypothesis to the next case (which, in the context of this scenario, means from $k$ students to $k+1$ students), without ensuring that every pair of students in the group of $k+1$ students has worked together on at least one project, which is the fundamental error leading to the invalid conclusion that all pairs of UVa students have worked together on at least one project.
+
+\vspace{12pt}
+
+
+\question[3]{
+Consider a graph $G=(V,E)$ where $|V| \% 2 = 0 \wedge |V| \geq 2$. Prove that if the degree of each node is at least $\frac{|V|}{2}$, then $G$ must be connected. \emph{$G$ does not contain any self-directed edges and $G$ is undirected.}
+}
+
+\vspace{12pt}
+
+\section*{Proof by Contradiction}
+
+\begin{enumerate}
+    \item \textbf{We assumed that $G$ is not connected}
+    \begin{itemize}
+        \item If $G$ is not connected, then it consists of at least two disjoint components because that means there exists at least one pair of vertices for which no path exists between them. These components are $C_1$ and $C_2$.
+        \item Let $|V(C_1)| = n_1$ and $|V(C_2)| = n_2$, where $n_1 + n_2 = |V|$. As a result we assumed $n_1 \leq n_2$ since it is not a connected graph
+    \end{itemize}
+    
+    \item \textbf{Degree}
+    \begin{itemize}
+\item Each vertex $v \in V$, has a degree of at least $\frac{|V|}{2}$
+    \end{itemize}
+    
+    \item \textbf{$C_1$ and $C_2$.}
+    \begin{itemize}
+        \item Since $G$ is not connected, there are no edges between $C_1$ and $C_2$. Therefore, all neighbors of any vertex $v \in C_1$ must be within $C_1$, and similarly for any vertex $v \in C_2$.
+    \end{itemize}
+    
+    \item \textbf{Degree constraint in $C_1$ and $C_2$:}
+    \begin{itemize}
+        \item Every vertex in $C_1$ has degree at least $\frac{|V|}{2}$, but since $C_1$ is disconnected from $C_2$, the degree of any vertex in $C_1$ is at most $n_1 - 1$.
+        \item Every vertex in $C_1$ must have:
+        \[
+        n_1 - 1 \geq \frac{|V|}{2}.
+        \]
+        \item Since $|V| = n_1 + n_2$:
+        \[
+        n_1 - 1 \geq \frac{n_1 + n_2}{2}.
+        \]
+        Simplification:
+        \[
+        2(n_1 - 1) \geq n_1 + n_2,
+        \]
+        \[
+        2n_1 - 2 \geq n_1 + n_2,
+        \]
+        \[
+        n_1 - 2 \geq n_2.
+        \]
+    \end{itemize}
+    
+    \item \textbf{Contradiction:}
+    \begin{itemize}
+        \item Initially we claimed that $n_1 \leq n_2$, but from the inequality $n_1 - 2 \geq n_2$, we get $n_1 \geq n_2 + 2$, which contradicts our original assumption that $n_1 \leq n_2$.
+    \end{itemize}
+    
+    \item \textbf{Conclusion:}
+    \begin{itemize}
+        \item The assumption that $G$ is not connected leads to a contradiction. Therefore, $G$ must be connected.
+    \end{itemize}
+\end{enumerate}
+
+
+\question[3]{
+Suppose I build a new computing machine that can be programmed to recognize a lot of different functions! It is called the \emph{Flogrammable Device}. In order to program this machine, you can type out your program on a \emph{tape}, but this type can only hold ten unique charactes. Each character is from the alphabet $\Sigma=\{a,b,c,d,0,1\}$ and any combination of these 10 characters is a valid program. You CANNOT have fewer than 10 characters or the code will not compile.\\
+\\
+Now suppose that you read online that somehow, there are 100,000,000 important functions that need to be computed by the \emph{Flogrammable Device} for it to cover all important functionality. Can we program each of the 100,000,000 functions on this machine? How do you know or not?
+
+
+\textbf{Given}: The Flogrammable Device can be programmed using tape. The tape can hold exactly 10 characters, with the alphabet $\Sigma$ = ${a,b,c,d,0,1}$. We are also given that there are $100,000,000$ important functions that need to be computed by the Flogrammable Device.
+
+\textbf{Step 1}: Based on the given information, we can calculate that the total number of unique programs that can be created is $6^{10}$, which is equivalent to $60,466,176$ unique programs that can be made with the alphabet and the 10 character restraint.
+
+\textbf{Step 2}: Comparing the number of unique programs that can be created based on the restriction $(60,466,176)$ and the amount of programs to cover all important functions, $100,000,000$, we can see that there are far less able to be made via the Flogrammable Device and its alphabet and character limit.
+
+\textbf{Step 3}: Finally, we can prove this utilizing the Pigeonhole principle, which states that if n items are attempted to be fit in m boxes, and n>m, then at least one box must contain more than one item. Say the items are the $100,000,000$ and the boxes are $60,466,176$, it would be impossible to map each important function to a unique program without putting multiple unique functions in the "program box". Hence it is not possible to program all the important functions onto the Flogrammable Device.
+
+}
