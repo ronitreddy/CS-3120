@@ -96,11 +96,13 @@ Consider the formal descriptions of each set below. For each, write a short info
 }
 
 \begin{itemize}
-      \item $\{n | \exists_{m \in \mathbb{N}} : n=2m\}$ The set of all Natural numbers n such that n = 2m, which is the set of all non negative even numbers, including 0.
-      \item $\{n | \exists_{m \in \mathbb{N}} : n=2m \wedge \exists_{k \in \mathbb{N}} : n=3k \}$ There exists non negative numbers m and k in the Natural Numbers such that a value non negative value n, from the Natural Numbers, is equal to 2m and 3k, therefore the set of all non negative n that are divisible by 6.
-      \item $\{ w \ | \ w \in \{0,1\}^* \wedge w=w^R \}$ \emph{**Note that $w^R$ is the reverse string of $w$ (e.g., 001 becomes 100)} The set of all w such that the reverse of the string w is equivalent to w itself for all possible lengths of strings formed by $\{0,1\}$.
+    \item $\{n | \exists_{m \in \mathbb{N}} : n=2m\}$: This description can be interpreted as the set of all natural numbers n such that n = 2m. Therefore, this set can be best described as the set of all non-negative even numbers (including 0), which is simply the set of all even natural numbers.
+
+    \item $\{n | \exists_{m \in \mathbb{N}} : n=2m \wedge \exists_{k \in \mathbb{N}} : n=3k \}$: This description can be interpreted as the set of non-negative values n, from the natural numbers, that are equal to both 2m and 3k, where m and k are existing non-negative numbers in the natural numbers. Therefore, this set can be best described as the set of all non-negative numbers that are divisible by both 2 and 3 (including 0), which is simply the set of all natural numbers that are multiples of 6, seeing as 6 is the least common multiple of 2 and 3.
+
+    \item $\{ w \ | \ w \in \{0,1\}^* \wedge w=w^R \}$ \emph{**Note that $w^R$ is the reverse string of $w$ (e.g., 001 becomes 100)}: This description can be interpreted as the set of all strings w such that the reverse of the string w is equivalent to w itself for all possible lengths of strings formed by $\{0,1\}$. Therefore, this set can be best described as the set of all binary strings (made of 0s and 1s) that are palindromes.
  
-      \item $\{ n | n \in \mathbb{Z} \wedge n=n+1 \}$ The set of values n such that they are integers and n+1 is equal to n itself. This the empty set as there is no n in $\{\mathbb{Z}\}$ where the addition of 1 will be equivalent.
+    \item $\{ n | n \in \mathbb{Z} \wedge n=n+1 \}$: This description can be interpreted as the set of values n such that they are integers and n + 1 is equal to n itself. Therefore, this set can be best described as all integers such that the number is equal to itself plus 1, which, considering that no integer n can satisfy the equation n = n + 1, is simply the empty set.
 \end{itemize}
 
 \vspace{12pt}
@@ -110,11 +112,12 @@ Similarly, for each informal description of the following languages, write out a
 }
 
 \begin{itemize}
-      \item The set containing all integers greater than 5
+    \item The set containing all integers greater than 5:
     $\{ n | n \in \mathbb{Z} \wedge n>5 \}$
-      \item The set containing all bitstrings that contain 010 somewhere within them
+    
+    \item The set containing all bitstrings that contain 010 somewhere within them:
     $\{ w \ | \ w \in \{0,1\}^* \wedge (\exists j (w[j] = 0 \wedge w[j+1] = 1 \wedge w[j+2] = 0)) \}$ %there exists an index j such that value at j =0, j+1  = 1 and j+2=0.
-      \item The set containing all bitstrings that are odd
+    \item The set containing all bitstrings that are odd:
     $\{ w \ | \ w \in \{0,1\}^* \wedge (\exists j(w[j] = 1 \wedge j=|w|-1)) \}$ % checking if there is a j which is the last index of the string and that substring is equal to 1
 \end{itemize}
 
@@ -123,7 +126,6 @@ Similarly, for each informal description of the following languages, write out a
 \question[3]{
 \textbf{Find and describe the error in the following direct proof that 2=1:} Consider the equation $a=b$. Multiply both sides by $a$ to obtain $a^2=ab$. Subtract $b^2$ from both sides to get $a^2-b^2=ab-b^2$. Now factor each side, $(a+b)(a-b)=b(a-b)$ and divide each side by $(a-b)$ to get $a+b=b$. Finally, let $a=b=1$ and substitute to get $2=1$.
 }
-
 The error in this direct proof lies in the step that involves factoring the equation into $(a+b)(a-b)=b(a-b)$ and dividing each side by $(a-b)$ to get $a+b=b$. Given that this proof begins by considering the equation $a=b$, and it can be rewritten to convey that $a-b = 0$, this step that involves dividing each side by $(a-b)$ to get $a+b=b$, then, translates to dividing each side by $0$ to get $a+b=b$. In mathematics, dividing by zero is undefined, thereby making this step invalid.\\
 \\
 Thus, this direct proof incorrectly uses division by zero, which is the fundamental error leading to the incorrect conclusion that $2=1$.
@@ -141,7 +143,6 @@ Thus, this direct proof incorrectly uses division by zero, which is the fundamen
 \textbf{Inductive step}: Now try to prove it still holds for $n=k+1$ students. Take the $k+1$ students and arbitrarily remove one. By the inductive hypothesis, the remaining $k$ students have all worked on at least one project together. Now do the same but remove a different single student. Again, by the inductive hypothesis the remaining $k$ students have all worked on at least one project together. Do this one last time with a third unique student being remove. Because we removed a different single student each of the three times, all of the $k+1$ students must have worked together on at least one project because every pair of students was in at least one of the subsets of size $k$.\\
 \\
 In your description, make sure to emphasize not just the error in logic, but the properties of inductive proofs that must be carefully followed in order for the proof to be valid. In other words, we are NOT looking for a purely intuitive answer.}
-
 The error in this inductive proof lies in the inductive step, specifically in the rationale that arbitrarily removing one student at a time out of $k+1$ students proves that all of the $k+1$ students have worked on at least one project together. For context, given that the proof outlines the assumption that, for any arbitrary number of students $n \leq k$, the original claim holds, meaning all pairs of students have worked together on at least one project, the inductive step attempts to build upon this idea in arguing that, by taking $k+1$ students,  arbitrarily removing one student, applying the inductive hypothesis to the remaining $k$ students, and repeating this process for different students, it can be concluded that all of the $k+1$ students must have worked on at least one project together.\\
 \\
 This rationale incorrectly assumes that, because every subset of $k$ students has worked on at least one project together, the entire set of $k+1$ students must have worked on at least one project together. Specifically, this inductive step overlooks the possibility that the  student removed in each step may not have worked with the other students, meaning the required pairwise collaborations between all $k+1$ students are not necessarily guaranteed. In inductive proofs, it is critical that the inductive step correctly references or leverages the assumed truth of the inductive hypothesis and applies it to the next case, which, in this instance, means doing so from $k$ to $k+1$ students. However, the inductive step in this proof fails to do so, as removing individual students, in any case, only shows that the remaining $k$ students have worked together on at least one project together, but does not prove that the student who was removed has worked with all the remaining students. This failure to ensure pairwise coverage across all of the $k+1$ students, then, violates the requirement that all pairs of students must be considered in the inductive step.\\
@@ -163,12 +164,12 @@ Consider a graph $G=(V,E)$ where $|V| \% 2 = 0 \wedge |V| \geq 2$. Prove that if
     \item \textbf{We assumed that $G$ is not connected}
     \begin{itemize}
         \item If $G$ is not connected, then it consists of at least two disjoint components because that means there exists at least one pair of vertices for which no path exists between them. These components are $C_1$ and $C_2$.
-        \item Let $|V(C_1)| = n_1$ and $|V(C_2)| = n_2$, where $n_1 + n_2 = |V|$. As a result we assumed $n_1 \leq n_2$ since it is not a connected graph
+        \item Let $|V(C_1)| = n_1$ and $|V(C_2)| = n_2$, where $n_1 + n_2 = |V|$. As a result we assumed $n_1 \leq n_2$ since it is not a connected graph.
     \end{itemize}
     
     \item \textbf{Degree}
     \begin{itemize}
-\item Each vertex $v \in V$, has a degree of at least $\frac{|V|}{2}$
+\item Each vertex $v \in V$, has a degree of at least $\frac{|V|}{2}$.
     \end{itemize}
     
     \item \textbf{$C_1$ and $C_2$.}
@@ -226,9 +227,6 @@ Now suppose that you read online that somehow, there are 100,000,000 important f
 \textbf{Step 3}: Finally, we can prove this utilizing the Pigeonhole principle, which states that if n items are attempted to be fit in m boxes, and n>m, then at least one box must contain more than one item. Say the items are the $100,000,000$ and the boxes are $60,466,176$, it would be impossible to map each important function to a unique program without putting multiple unique functions in the "program box". Hence it is not possible to program all the important functions onto the Flogrammable Device.
 
 }
-
-
-
 
 
 \end{document} 
