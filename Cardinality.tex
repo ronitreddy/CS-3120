@@ -117,7 +117,7 @@ Consider a square grid with length and width $n$. The bottom left corner is cons
 Our goal is to count the number of unique ways a robot starting at cell $(0,0)$ can reach cell $(n,n)$ by only moving up, down, left, right on the grid on each move. We would like you to do two things:
 
 \begin{enumerate}
-	\item In your own words, argue why the given set is infinite (as opposed to finite).
+	\item In your own words, argue why the given set is infinite (as opposed to finite). This given set is infinite due to the nature of the robots movements, which are restricted to left, right, up, and down on the grid. For example, a valid movement could be 5 steps towards the goal $(n,n)$, the there could be redundant repetitions moving right to left, then left to right (in a back and forth direction), then finally the amount of steps required to reach $(n,n)$. 
 	\item Show that the number of unique ways the robot can reach position $(n,n)$ is \emph{countably infinite}. \emph{Hint: Try showing that a superset of this one is countably infinite}.
 \end{enumerate}
 }
@@ -134,6 +134,10 @@ $F= \mathcal{P}(\mathbb{N}) $
 \\
 In other words, prove that the power set of the natural numbers (the set of all subsets of the natural numbers) is uncountable.
 }
+
+Step 1: Let's assume that $\mathcal{P}(\mathbb{N})$ is countable. If this is true, there must be a bijection between this and the Natural Numbers.
+
+Step 2:
 
 \vspace{12pt}
 
