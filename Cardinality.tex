@@ -135,10 +135,52 @@ $F= \mathcal{P}(\mathbb{N}) $
 In other words, prove that the power set of the natural numbers (the set of all subsets of the natural numbers) is uncountable.
 }
 
-Step 1: Let's assume that $\mathcal{P}(\mathbb{N})$ is countable. If this is true, there must be a bijection between this and the Natural Numbers.
+1. \textbf{Assume the opposite}: Doing a proof by contradiction: We can assume that \( P(\mathbb{N}) \) is countable. Then we can list all elements of \( P(\mathbb{N}) \)  as a sequence:
+   \[
+   S_1, S_2, S_3, S_4, \dots
+   \]
+   where each \( S_i \) is a subset of the natural numbers \( \mathbb{N} \).\newline
 
-Step 2:
+2. \textbf{Represent each subset as a sequence}: We represent each subset as an infinite sequence of 0's and 1's, where 1 indicates the presence of a natural number in the subset, and 0 indicates its absence. Specifically, each subset \( S_i \) can be represented by its characteristic function. The characteristic function for a subset \( S \subseteq \mathbb{N} \) is a function \( f_S: \mathbb{N} \to \{0, 1\} \) defined as:
+   \[
+   f_S(n) =
+   \begin{cases}
+   1 & \text{if } n \in S, \\
+   0 & \text{if } n \notin S.
+   \end{cases}
+   \]
+   So as a result, each subset \( S_i \) corresponds to a unique infinite binary sequence, with the \( n \)-th element indicating whether \( n \in S_i \).\newline
 
+   For example:
+
+\[
+S_1 \text{ is the set of even numbers:}
+\]
+\[
+S_1 = \{ 2, 4, 6, 8, \dots \}
+\]
+
+In binary sequence form, this would be:
+
+\[
+S_1: (0, 1, 0, 1, 0, 1, 0, 1, \dots)
+\]
+where the 1st position corresponds to the number 1, the 2nd to 2, the 3rd to 3, and so on. The sequence has a 1 at even-numbered positions and a 0 elsewhere.\newline
+
+
+3. \textbf{Construct a new subset}: If we make a new subset \( X \subseteq \mathbb{N} \) which is different from \( S_1, S_2, S_3, \dots \). Then \( X \) is such that:
+   \[
+   n \in X \quad \text{if and only if} \quad n \notin S_n.
+   \]
+    \( X \) is constructed by diagonalizing the subsets in the Power Set, this is done by looking at the \( n \)-th subset \( S_n \) and including \( n \) in \( X \) if and only if \( n \notin S_n \).\newline
+
+4. \textbf{Contradiction}: \( X \) is a subset of \( \mathbb{N} \), so it must be one of the subsets in the list, which means \( X = S_k \) for some \( k \in \mathbb{N} \). However, by the construction of \( X \), we know that:
+   \[
+   k \in X \quad \text{if and only if} \quad k \notin S_k.
+   \]
+   This is a contradiction because it implies that \( k \in X \) and \( k \notin X \), which is impossible.\newline
+
+5. \textbf{Conclusion}: Since assuming that \( P(\mathbb{N}) \) is countable led to a contradiction, we conclude that \( P(\mathbb{N}) \) must be uncountable.
 \vspace{12pt}
 
 
