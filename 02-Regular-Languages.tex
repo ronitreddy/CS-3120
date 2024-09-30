@@ -119,12 +119,23 @@ Let w be any string in $\Sigma*$, we need to show that w $\in$ a language, $C$, 
 
 \question[3]{
 Prove that regular languages are closed under \emph{complement}. Do this by starting with a \emph{DFA} for a regular language $A$, and describe how to construct a new \emph{DFA} for $\bar{A}$.
+
+Let $M = (Q_A, \Sigma, \delta, q_0, F_A)$ be a DFA for the regular language $A$, where $Q_A$ is the set of states, $\Sigma$ is the alphabet, $\delta$ is the transition function, $q_0$ is the start state, and $F_A$ is the set of accepting states.
+
+To construct a DFA for the complement of $A$, denoted $\bar{A}$, we define a new DFA $M' = (Q_A, \Sigma, \delta, q_0, Q_A \setminus F_A)$. In this new DFA, the set of accepting states is $Q_A \setminus F_A$, meaning all states in $Q_A$ that were not accepting in $A$ are now accepting in $M'$.
+
+For any string $w$, if $w$ is in the language $A$, it is accepted by $M$, meaning the state reached after processing $w$ is in $F_A$. However, in $M'$, this same string $w$ will be rejected, as $w$ leads to a state that is not in the accepting set of $M'$. Conversely, if $w$ is not in $A$, it will be accepted by $M'$. This construction proves that the complement of a regular language is also regular.
+
+
+
 }
 
 \vspace{12pt}
 
 \question[3]{
 For any string $w = w_1w_2,...,w_n$, let $w^R$ be the reverse of string $w$ (i.e., $w^R=w_n,...,w_2,w_1$). Prove that if a language $A$ is regular, then the language $A^R = \{w^R \ | \ w \in A\}$ is also regular.
+
+
 }
 
 
