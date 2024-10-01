@@ -108,8 +108,8 @@ Draw out \emph{DFA}s (not \emph{NFA}s) for each of the following languages. For 
 Prove that regular languages are closed under \emph{intersection}. Do this by starting with \emph{DFA}s for two regular languages $A$ and $B$, and describe how to construct a new \emph{DFA} for $A \cap B$\
 \\
 
-We start with two regular languages A and B, whose DFA's can be represented as $M_A = (Q_A, \Sigma, \delta_A, q_{A0}, F_A)$ and $M_B = (Q_B, \Sigma, \delta_B, q_{B0}, F_B)$. To construct a new DFA for $A \cap B$, say $M_C = (Q_A $ x $ Q_B, \Sigma, (\delta_A(q_A,a),\delta_A(q_A,a)) ,F_A $ x $ F_B)$, such that we would need to take the cross product and get all pairs of states and a transition function that simulates transitions for both DFAs $M_A $ and $ M_B$. 
-
+We start with two regular languages A and B, whose DFA's can be represented as $M_A = (Q_A, \Sigma, \delta_A, q_{A0}, F_A)$ and $M_B = (Q_B, \Sigma, \delta_B, q_{B0}, F_B)$. To construct a new DFA for $A \cap B$, say $M_C = (Q_A $ x $ Q_B, \Sigma, (\delta_A(q_A,a),\delta_A(q_A,a)) ,F_A $ x $ F_B)$, such that we would need to take the cross product and get all pairs of states and a transition function that simulates transitions for both DFAs $M_A $ and $ M_B$.\\
+\\
 Let w be any string in $\Sigma*$, we need to show that w $\in$ a language, $C$, accepted by $M_C$. If w exists in the set $A \cap B$, then it must reach accepting states in both A and B, such that $q_A \in F_A$ and $q_B \in F_B$ where $F_C$ will reach a state $(q_A, q_B)$. The string $w$ will be apart of the language $C$ by construction of the DFA for $C$ as it will only accept strings to be part of the language if it is in languages $A$ and $B$.
 }
 
@@ -119,15 +119,13 @@ Let w be any string in $\Sigma*$, we need to show that w $\in$ a language, $C$, 
 
 \question[3]{
 Prove that regular languages are closed under \emph{complement}. Do this by starting with a \emph{DFA} for a regular language $A$, and describe how to construct a new \emph{DFA} for $\bar{A}$.
+\\
 
-Let $M = (Q_A, \Sigma, \delta, q_0, F_A)$ be a DFA for the regular language $A$, where $Q_A$ is the set of states, $\Sigma$ is the alphabet, $\delta$ is the transition function, $q_0$ is the start state, and $F_A$ is the set of accepting states.
-
-To construct a DFA for the complement of $A$, denoted $\bar{A}$, we define a new DFA $M' = (Q_A, \Sigma, \delta, q_0, Q_A \setminus F_A)$. In this new DFA, the set of accepting states is $Q_A \setminus F_A$, meaning all states in $Q_A$ that were not accepting in $A$ are now accepting in $M'$.
-
+Let $M = (Q_A, \Sigma, \delta, q_0, F_A)$ be a DFA for the regular language $A$, where $Q_A$ is the set of states, $\Sigma$ is the alphabet, $\delta$ is the transition function, $q_0$ is the start state, and $F_A$ is the set of accepting states.\\
+\\
+To construct a DFA for the complement of $A$, denoted $\bar{A}$, we define a new DFA $M' = (Q_A, \Sigma, \delta, q_0, Q_A \setminus F_A)$. In this new DFA, the set of accepting states is $Q_A \setminus F_A$, meaning all states in $Q_A$ that were not accepting in $A$ are now accepting in $M'$.\\
+\\
 For any string $w$, if $w$ is in the language $A$, it is accepted by $M$, meaning the state reached after processing $w$ is in $F_A$. However, in $M'$, this same string $w$ will be rejected, as $w$ leads to a state that is not in the accepting set of $M'$. Conversely, if $w$ is not in $A$, it will be accepted by $M'$. This construction proves that the complement of a regular language is also regular.
-
-
-
 }
 
 \vspace{12pt}
@@ -159,6 +157,20 @@ Find and describe the error that exists in the following proof. The proof attemp
 \emph{
 Assume, for sake of contradiction, that $0^*1^*$ is regular. We select an element from this language that is greater than the pumping length $p$. We select $0^p1^p$. In class, when proving that $0^n1^n$ was not regular, we showed that $0^p1^p$ cannot be pumped. Therefore, $0^*1^*$ is not regular.
 }
+\\
+\\
+The error in the proof lies in the improper selection of the string $0^p1^p$ and the misapplication of the pumping lemma in an attempt to show that $0^*1^*$ is not regular. For context, the pumping lemma for regular languages states that for any regular language $A$, there exists a pumping length $p$ such that any string $s \in A$ where $|s| \geq p$ can be divided into three parts $s = xyz$ satisfying the following conditions:
+\begin{itemize}
+    \item for each $i \geq 0, xy^iz \in A$,
+    \item $|y| > 0$,
+    \item $|xy| \leq p$.
+\end{itemize}
+
+In this case, the proof incorrectly references this concept to select the string $0^p1^p$ from the language $0^*1^*$ and assumes that this string cannot be pumped, following the reasoning outlined in class to prove that $0^n1^n$ is not regular. However, $0^*1^*$ is a different language with a simpler structure than $0^n1^n$, allowing any number of $0$'s followed by any number of $1$'s as opposed to requiring the number of $0$'s to exactly match the number of $1$'s; accordingly, the string $0^p1^p$ can indeed be pumped within this language.\\
+\\
+For example, if we select $y$ to be a portion of the $0$'s (e.g., $y = 0^k$ for some $k > 0$), we can pump $y$ by repeating or omitting occurrences of $0$'s (i.e., consider strings $0^{p+k}1^p$ or $0^{p-k}1^p$), and the resulting strings will still belong to $0^*1^*$. Similarly, if $y$ consists of $1$'s, the same process applies, and all pumped versions of the string will still fit within the structure of the language. As such, pumping $y$ in any case still produces a valid string in $0^*1^*$, as it merely changes the number of $0$'s but retains the structure of some number of $0$'s followed by some number of $1$'s, which is allowed by the language.\\
+\\
+Conclusively, the root issue in the proof is the incorrect assumption that $0^*1^*$ behaves like $0^n1^n$, where the number of $0$'s must match the number of $1$'s. Instead, with $0^*1^*$, there is no such restriction on the relationship between the number of $0$'s and the number of $1$'s, meaning that the pumping lemma can be applied without generating strings that fall outside the language. Thus, the proof fails in its attempt to employ rationale pertaining to a non-regular language in $0^n1^n$ to show that the language $0^*1^*$ is also not regular, when, in fact, it is regular.
 }
 
 \vspace{12pt}
