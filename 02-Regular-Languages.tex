@@ -251,6 +251,58 @@ For any string $w = w_1w_2,...,w_n$, let $w^R$ be the reverse of string $w$ (i.e
 }
 
 
+\textbf{1. Given:} $A$ is a regular language and that means there exists a DFA $M = (Q, \Sigma, \delta, q_0, F)$ that recognizes $A$.
+
+\textbf{2. Construction of $M^R$:}  
+We will construct a NFA $M^R$ which recognizes $A^R$:
+
+\[
+M^R = (Q, \Sigma, \delta^R, F, \{q_0\}),
+\]
+where:
+\begin{itemize}
+    \item $Q$ and $\Sigma$ are the same as they are in $M$,
+    \item $\delta^R(q, a) = \{p \mid \delta(p, a) = q\}$ for all $q \in Q$ and $a \in \Sigma$.
+    \item The set of initial states is $F$, the accepting states of $M$.
+    \item The only accepting state is $\{q_0\}$, the initial state of $M$.
+\end{itemize}
+
+Now we have reversed all transitions in $M$.
+
+\textbf{3. Proof of correctness:}  
+
+\begin{itemize}
+    \item[(a)] Let $w = w_1w_2\ldots w_n \in A$. Then there exists a sequence of states $r_0, r_1, \ldots, r_n$ in $M$ such that:
+    \begin{itemize}
+        \item $r_0 = q_0$,
+        \item $r_i = \delta(r_{i-1}, w_i)$ for $1 \leq i \leq n$,
+        \item $r_n \in F$.
+    \end{itemize}
+
+    \item[(b)] Consider $w^R = w_n \ldots w_2w_1$. In $M^R$, there exists a corresponding sequence of states $s_n, s_{n-1}, \ldots, s_0$ such that:
+    \begin{itemize}
+        \item $s_n \in F$ (initial states of $M^R$),
+        \item $s_{i-1} \in \delta^R(s_i, w_i)$ for $n \geq i \geq 1$ (by construction of $\delta^R$),
+        \item $s_0 = q_0$ (accepting state of $M^R$).
+    \end{itemize}
+
+    \item[(c)] This shows that $w^R$ is accepted by $M^R$. Therefore, if $w \in A$, then $w^R \in L(M^R)$.
+
+    \item[(d)] Conversely, if $w^R \in L(M^R)$, we can reverse this argument to show that $w \in A$.
+\end{itemize}
+
+Thus, $L(M^R) = A^R$.
+
+\textbf{5. Conversion of NFA to DFA:}  
+While $M^R$ is an NFA, we know that for every NFA, there exists an equivalent DFA. This is proven by the subset construction method, which is not detailed here but is a standard result in automata theory.
+
+Let $M'_R$ be the DFA obtained from $M^R$ using the subset construction. Then $L(M'_R) = L(M^R) = A^R$.
+
+\textbf{6. Conclusion:}  
+We have constructed a DFA $M'_R$ that recognizes $A^R$. Since the existence of a DFA for a language is equivalent to the language being regular, we have proven that $A^R$ is regular.
+
+Therefore, if $A$ is a regular language, then $A^R$ is also a regular language.
+
 \vspace{12pt}
 
 \question[3]{
