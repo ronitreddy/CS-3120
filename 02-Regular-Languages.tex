@@ -14,6 +14,8 @@
 \usepackage{amsmath}
 \usepackage{wasysym}
 \usepackage{amsfonts}
+\usepackage{tikz}
+\usetikzlibrary{automata, positioning}
 
 \def\course{CS 3120: Discrete Math and Theory II}
 \def\homework{Regular Languages}
@@ -96,10 +98,122 @@ Draw out \emph{DFA}s (not \emph{NFA}s) for each of the following languages. For 
 
 \begin{itemize}
 	\item $\{w \ | \ w \text{ does not contain the substring } abba \}$ (\emph{*Hint: Draw out the DFA for a simpler language that DOES contain abba and then try to change that machine slightly.})
+
+\begin{tikzpicture}[shorten >=1pt, node distance=2cm, on grid, auto]
+  % Nodes
+  \node[state, initial, accepting] (q0) {q0};
+  \node[state, accepting] (q1) [right=of q0] {q1};
+  \node[state, accepting] (q2) [right=of q1] {q2};
+  \node[state, accepting] (q3) [right=of q2] {q3};
+  \node[state] (q4) [below=2cm of q2] {q4};
+  % Edges
+  \path[->]
+    (q0) edge [bend left] node {a} (q1)
+         edge [loop above] node {b} ()
+    (q1) edge [loop above] node {a} ()
+         edge [bend left] node {b} (q2)
+    (q2) edge [bend left] node {a} (q1)
+         edge [bend left] node {b} (q3)
+    (q3) edge [bend right] node [below] {a} (q4)
+         edge [bend left] node {b} (q0)
+    (q4) edge [loop right] node {a,b} ();
+\end{tikzpicture}
+
 	\item $\{w \ | \ w \text{ contains BOTH the substrings ab and ba}\}$
+
+\begin{tikzpicture}[shorten >=1pt, node distance=3cm, on grid, auto]
+  % Nodes
+  \node[state, initial] (q0) {q0};  % Initial state: neither "ab" nor "ba" seen
+  \node[state] (q1) [right of=q0] {q1}; % "a" seen, waiting for "ab"
+  \node[state] (q2) [right of=q1] {q2}; % "ab" seen
+  \node[state] (q3) [below of=q1] {q3}; % "b" seen, waiting for "ba"
+  \node[state] (q4) [below of=q2] {q4}; % "ba" seen
+  \node[state, accepting] (q5) [right of=q4] {q5}; % Both "ab" and "ba" seen
+
+  % Transitions
+  \path[->]
+    (q0) edge [bend left] node {a} (q1)   % Seeing 'a' moves from q0 to q1
+         edge [loop above] node {b} ()    % Seeing 'b' keeps it in q0
+    (q1) edge [bend left] node {b} (q2)   % Seeing 'b' forms "ab", go to q2
+         edge [loop above] node {a} ()    % Seeing 'a' keeps it in q1
+    (q2) edge [bend left] node {a} (q1)   % Seeing 'a' moves back to q1
+         edge [bend left] node {b} (q5)  % Seeing 'b' completes "ba", go to accepting state
+    (q0) edge [bend right] node {b} (q3)  % Seeing 'b' moves from q0 to q3 (start of "ba")
+    (q3) edge [bend right] node {a} (q4)  % Seeing 'a' forms "ba", go to q4
+         edge [loop below] node {b} ()    % Seeing 'b' keeps it in q3
+    (q4) edge [bend left] node {b} (q5)  % Seeing 'b' completes "ab", go to accepting state
+         edge [bend right] node {a} (q1);  % Seeing 'a' keeps searching for "ab"
+\end{tikzpicture}
+
 	\item $\{w \ | \ w \in a^*b^*a^* \}$
+
+\begin{tikzpicture}[shorten >=1pt, node distance=3cm, on grid, auto]
+
+  % States
+  \node[state, initial, accepting] (q0) {$q_0$};  % Initial and accepting state
+  \node[state, accepting] (q1) [right of=q0] {$q_1$}; % State for reading b's
+  \node[state, accepting] (q2) [right of=q1] {$q_2$}; % State for reading a's after b's
+  \node[state] (q3) [below of=q1] {$q_3$};  % Fixed label for q3
+
+  % Transitions
+  \path[->]
+    (q0) edge [loop above] node {a} ()          % q0 loops on 'a'
+         edge [bend left] node {b} (q1)         % q0 goes to q1 on 'b'
+    (q1) edge [loop above] node {b} ()          % q1 loops on 'b'
+         edge [bend left] node {a} (q2)         % q1 goes to q2 on 'a'
+    (q2) edge [loop above] node {a} ()          % q2 loops on 'a'
+         edge [bend right] node {b} (q3)      % q2 goes to trap on 'b'
+    (q3) edge [loop above] node {a,b} ();     % trap loops on both 'a' and 'b'
+
+\end{tikzpicture}
+
 	\item $\{w \ | \ w \neq ab \wedge w \neq bb \}$
+
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto]
+    \node[state,initial] (q0) {$q_0$};
+    \node[state] (q1) [above right of=q0] {$q_1$};
+    \node[state] (q2) [below right of=q0] {$q_2$};
+    \node[state,accepting] (qaccept) [right of=q2] {$q_{\text{accept}}$};
+    \node[state] (qreject) [right of=q1] {$q_{\text{reject}}$};
+
+    \path
+    (q0) edge node[above left] {a} (q1)
+         edge node[below left] {b} (q2)
+    (q1) edge[loop above] node {a} (q1)
+         edge node[above] {b} (qreject)
+    (q2) edge node[below] {a} (qaccept)
+         edge node[above right] {b} (qreject)
+    (qaccept) edge[loop right] node {a,b} (qaccept)
+    (qreject) edge[loop right] node {a,b} (qreject);
+\end{tikzpicture}
+
 	\item $\{w \ | \ w \in a^iw' \ | \ i \in \mathbb{N}, w' \in \{a,b\}^*, \text{w' contains at least i a's} $ (\emph{*Hint: This one LOOKS not regular but it actually is. Can you figure out why?})
+
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto]
+
+\node[state,initial] (q0) {$q_0$};
+\node[state, right of=q0] (q1) {$q_1$};
+\node[state, right of=q1] (q2) {$q_2$};
+\node[state, right of=q2] (q3) {$q_3$};
+\node[state, right of=q3] (q4) {$q_4$};
+\node[state,accepting, right of=q4] (q5) {$q_5$};
+\node[state, below of=q2] (qreject) {$q_\text{reject}$};
+
+\path
+    (q0) edge node[above] {a} (q1)
+    (q1) edge node[above] {a} (q2)
+    (q2) edge node[above] {a} (q3)
+    (q2) edge[bend left] node[left] {b} (q3)
+    (q3) edge node[above] {a} (q4)
+    (q3) edge[loop above] node {b} ()
+    (q4) edge node[above] {a} (q5)
+    (q4) edge[loop above] node {b} ()
+    (q5) edge[loop above] node {a,b} ()
+    (q0) edge node[below left] {b} (qreject)
+    (q1) edge[bend right] node[below] {b} (qreject)
+    (qreject) edge[loop right] node {a,b} ();
+\end{tikzpicture}
+
 \end{itemize}
 
 \vspace{12pt}
