@@ -155,15 +155,19 @@ By the pumping lemma, there exists a pumping length $p$ such that any string $s$
     \item $|xy| \leq p$.
 \end{itemize}
 
-In this case, let us select the string $s' = 0^{p/4} 0^{p/4} 1^{p/4} 1^{p/4}$, which follows the form where $n = p/4$, such that we have $p/4$ zeros, followed by another $p/4$ zeros, followed by $p/4$ ones, followed by another $p/4$ ones.\\
-\\
+In this case, let us select the string $s' = 0^p1^p$, which follows the form where $n = p$, such that we have $p$ zeros followed by $p$ ones.\\
+
 According to the pumping lemma, $s'$ can be divided into $s' = xyz$, where we can "pump" $y$ any number of times, $|y| > 0$, and $|xy| \leq p$. Based on this, there are three potential cases to consider:
+
 \begin{itemize}
-    \item $y$ contains only 0s: If $y$ consists only of 0s from the first block of $0^{p/4}$, pumping $y$ will increase or decrease the number of 0s in this block. The resulting string, then, would look like $0^{p/4+k} 0^{p/4} 1^{p/4} 1^{p/4}$, where $k$ is the number of 0s added or removed, which breaks the balance between the middle blocks of 0s and 1s and causes the number of 0s to exceed or fall short of the number of 1s, thereby contradicting the structure of the language.
-    \item $y$ contains some 0s and some 1s: If $y$ contains both 0s and 1s crossing the boundary between the second $0^{p/4}$ block and the first $1^{p/4}$ block, pumping $y$ will mix the 0s and 1s in the middle. The resulting string, then, would look like $0^{p/4} 0^{p/4-k} 1^{p/4+k} 1^{p/4}$, which disrupts the required separation between the blocks of 0s and 1s, thereby contradicting the structure of the language (as it mandates that 0s and 1s remain distinct and properly balanced).
-    \item $y$ contains all 1s: If $y$ consists only of 1s from the first block of $1^{p/4}$, pumping $y$ will increase or decrease the number of 1s in the middle of the string. The resulting string, then, would look like $0^{p/4} 0^{p/4} 1^{p/4+k} 1^{p/4}$, where $k$ is the number of 1s added or removed, which breaks the balance between the middle block of 0s and the middle block of 1s and causes the number of 1s to exceed or fall short of the number of 0s, thereby contradicting the structure of the language.
+    \item $y$ contains only 0s: If $y$ consists only of 0s from the first block of $0^p$, pumping $y$ will increase or decrease the number of 0s in this block. The resulting string, then, would look like $0^{p+k}1^p$, where $k$ is the number of 0s added or removed, which breaks the balance between the number of 0s and 1s, thereby contradicting the structure of the language.
+    
+    \item $y$ contains some 0s and some 1s: If $y$ contains both 0s and 1s, pumping $y$ will mix the 0s and 1s, disrupting the boundary between the block of 0s and the block of 1s. The resulting string would look like $0^{p-k}1^{p+k}$, which is not of the form $0^n1^n$, thereby contradicting the structure of the language.
+    
+    \item $y$ contains only 1s: If $y$ consists only of 1s from the second block of $1^p$, pumping $y$ will increase or decrease the number of 1s in this block. The resulting string, then, would look like $0^p1^{p+k}$, where $k$ is the number of 1s added or removed, which breaks the balance between the number of 0s and 1s, thereby contradicting the structure of the language.
 \end{itemize}
-In all three cases, pumping $y$ results in a string that violates the structure of the language $A$. Whether $y$ contains only 0s, both 0s and 1s, or only 1s, the resulting string after pumping does not preserve the required balance between the middle blocks of 0s and 1s, nor does it maintain the necessary separation between them. As such, we have found a valid string $s'$ that cannot be pumped without breaking the conditions of the language. Thus, this contradicts the assumption that $A$ is regular, and we can conclude that language $A$ is not regular.
+
+In all three cases, pumping $y$ results in a string that violates the structure of the language $A$. Whether $y$ contains only 0s, both 0s and 1s, or only 1s, the resulting string after pumping does not preserve the required balance between the blocks of 0s and 1s. As such, we have found a valid string $s'$ that cannot be pumped without breaking the conditions of the language. Thus, this contradicts the assumption that $A$ is regular, and we can conclude that language $A$ is not regular.
 
 	\item $B= \{ www \ | \ w \in \{0,1\}^* \}$\\
 \\
