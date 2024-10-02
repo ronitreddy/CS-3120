@@ -144,8 +144,51 @@ Use the pumping lemma to show that the following languages are not regular OR ar
 }
 
 \begin{itemize}
-	\item $A= \{ 0^*0^n1^n1^* \ | \ n \geq 0\}$
-	\item $B= \{ www \ | \ w \in \{0,1\}^* \}$
+	\item $A= \{ 0^*0^n1^n1^* \ | \ n \geq 0\}$\\
+\\
+Assume that language $A$ is regular.\\
+\\
+By the pumping lemma, there exists a pumping length $p$ such that any string $s$ in the language $A$ of length at least $p$ can be divided into three parts $s = xyz$ satisfying the following conditions:
+\begin{itemize}
+    \item for each $i \geq 0, xy^iz \in A$,
+    \item $|y| > 0$,
+    \item $|xy| \leq p$.
+\end{itemize}
+
+In this case, let us select the string $s' = 0^{p/4} 0^{p/4} 1^{p/4} 1^{p/4}$, which follows the form where $n = p/4$, such that we have $p/4$ zeros, followed by another $p/4$ zeros, followed by $p/4$ ones, followed by another $p/4$ ones.\\
+\\
+According to the pumping lemma, $s'$ can be divided into $s' = xyz$, where we can "pump" $y$ any number of times, $|y| > 0$, and $|xy| \leq p$. Based on this, there are three potential cases to consider:
+\begin{itemize}
+    \item $y$ contains only 0s: If $y$ consists only of 0s from the first block of $0^{p/4}$, pumping $y$ will increase or decrease the number of 0s in this block. The resulting string, then, would look like $0^{p/4+k} 0^{p/4} 1^{p/4} 1^{p/4}$, where $k$ is the number of 0s added or removed, which breaks the balance between the middle blocks of 0s and 1s and causes the number of 0s to exceed or fall short of the number of 1s, thereby contradicting the structure of the language.
+    \item $y$ contains some 0s and some 1s: If $y$ contains both 0s and 1s crossing the boundary between the second $0^{p/4}$ block and the first $1^{p/4}$ block, pumping $y$ will mix the 0s and 1s in the middle. The resulting string, then, would look like $0^{p/4} 0^{p/4-k} 1^{p/4+k} 1^{p/4}$, which disrupts the required separation between the blocks of 0s and 1s, thereby contradicting the structure of the language (as it mandates that 0s and 1s remain distinct and properly balanced).
+    \item $y$ contains all 1s: If $y$ consists only of 1s from the first block of $1^{p/4}$, pumping $y$ will increase or decrease the number of 1s in the middle of the string. The resulting string, then, would look like $0^{p/4} 0^{p/4} 1^{p/4+k} 1^{p/4}$, where $k$ is the number of 1s added or removed, which breaks the balance between the middle block of 0s and the middle block of 1s and causes the number of 1s to exceed or fall short of the number of 0s, thereby contradicting the structure of the language.
+\end{itemize}
+In all three cases, pumping $y$ results in a string that violates the structure of the language $A$. Whether $y$ contains only 0s, both 0s and 1s, or only 1s, the resulting string after pumping does not preserve the required balance between the middle blocks of 0s and 1s, nor does it maintain the necessary separation between them. As such, we have found a valid string $s'$ that cannot be pumped without breaking the conditions of the language. Thus, this contradicts the assumption that $A$ is regular, and we can conclude that language $A$ is not regular.
+
+	\item $B= \{ www \ | \ w \in \{0,1\}^* \}$\\
+\\
+Assume that language $B$ is regular.\\
+
+By the pumping lemma, there exists a pumping length $p$ such that any string $s$ in the language $B$ of length at least $p$ can be divided into three parts $s = xyz$ satisfying the following conditions:
+\begin{itemize}
+    \item for each $i \geq 0, xy^iz \in B$,
+    \item $|y| > 0$,
+    \item $|xy| \leq p$.
+\end{itemize}
+
+In this case, let us select the string $s' = 0^p10^p10^p$, which consists of three consecutive copies of the substring $0^p$ with $1$ separating each substring instance (and consequently follows the form $www$ required by the language $B$), making it a valid string in $B$.\\
+
+According to the pumping lemma, $s'$ can be divided into $s' = xyz$, where we can "pump" $y$ any number of times, $|y| > 0$, and $|xy| \leq p$. Based on this, there are three potential cases to consider:
+
+\begin{itemize}
+    \item $y$ contains only 0s: If $y$ consists only of 0s from the first block of $0^p$, pumping $y$ will increase or decrease the number of 0s in this block. The resulting string, then, would look like $0^{p+k}10^p10^p$, where $k$ is the number of 0s added or removed. This string is no longer of the form $www$, as the first part is no longer the same as the subsequent parts, thereby contradicting the structure of the language.
+    
+    \item $y$ contains a 1 and some 0s: If $y$ contains a 1 and some 0s, spanning across the boundary between the second block of $0^p$ and the first 1, pumping $y$ will mix 0s and the 1, resulting in a string like $0^{p-k}110^p10^p$. This string disrupts the pattern $www$ because the middle copy of $w$ no longer starts with the same 0s, thereby violating the required repetition of $w$.
+    
+    \item $y$ contains some 0s and a 1: If $y$ consists of some 0s and the 1 from the second block of $0^p$, pumping $y$ will change the structure of the second occurrence of $w$. The resulting string would look like $0^p1^k0^{p-k}10^p$, which again does not maintain the required repetition of $w$, leading to a contradiction.
+\end{itemize}
+
+In all three cases, pumping $y$ results in a string that violates the structure of the language $B$. Whether $y$ contains only 0s, a 1 and some 0s, or some 0s and a 1, the resulting string after pumping does not maintain the repetition required by the language $B$. As such, we have found a valid string $s'$ that cannot be pumped without breaking the conditions of the language. Thus, this contradicts the assumption that $B$ is regular, and we can conclude that language $B$ is not regular.
 \end{itemize}
 
 \vspace{12pt}
@@ -159,18 +202,18 @@ Assume, for sake of contradiction, that $0^*1^*$ is regular. We select an elemen
 }
 \\
 \\
-The error in the proof lies in the improper selection of the string $0^p1^p$ and the misapplication of the pumping lemma in an attempt to show that $0^*1^*$ is not regular. For context, the pumping lemma for regular languages states that for any regular language $A$, there exists a pumping length $p$ such that any string $s \in A$ where $|s| \geq p$ can be divided into three parts $s = xyz$ satisfying the following conditions:
+The error in the proof lies in a misunderstanding of the language $0^*1^*$ and a misapplication of the pumping lemma in an attempt to show that $0^*1^*$ is not regular. For context, the pumping lemma for regular languages states that for any regular language $A$, there exists a pumping length $p$ such that any string $s \in A$ where $|s| \geq p$ can be divided into three parts $s = xyz$ satisfying the following conditions:
 \begin{itemize}
     \item for each $i \geq 0, xy^iz \in A$,
     \item $|y| > 0$,
     \item $|xy| \leq p$.
 \end{itemize}
 
-In this case, the proof incorrectly references this concept to select the string $0^p1^p$ from the language $0^*1^*$ and assumes that this string cannot be pumped, following the reasoning outlined in class to prove that $0^n1^n$ is not regular. However, $0^*1^*$ is a different language with a simpler structure than $0^n1^n$, allowing any number of $0$'s followed by any number of $1$'s as opposed to requiring the number of $0$'s to exactly match the number of $1$'s; accordingly, the string $0^p1^p$ can indeed be pumped within this language.\\
+In this case, the proof incorrectly references this concept to select the string $s' = 0^p1^p$ from the language $0^*1^*$ and assumes that this string cannot be pumped, following the reasoning outlined in class to prove that $0^n1^n$ is not regular. However, $0^*1^*$ is a different language with a simpler structure than $0^n1^n$, allowing any number of $0$s followed by any number of $1$s as opposed to requiring the number of $0$s to exactly match the number of $1$s; accordingly, the string $0^p1^p$ can indeed be pumped within this language.\\
 \\
-For example, if we select $y$ to be a portion of the $0$'s (e.g., $y = 0^k$ for some $k > 0$), we can pump $y$ by repeating or omitting occurrences of $0$'s (i.e., consider strings $0^{p+k}1^p$ or $0^{p-k}1^p$), and the resulting strings will still belong to $0^*1^*$. Similarly, if $y$ consists of $1$'s, the same process applies, and all pumped versions of the string will still fit within the structure of the language. As such, pumping $y$ in any case still produces a valid string in $0^*1^*$, as it merely changes the number of $0$'s but retains the structure of some number of $0$'s followed by some number of $1$'s, which is allowed by the language.\\
+For example, if we divide $s'$ such that $s' = xyz$ and select $y$ to be a section of $s'$ containing only $0$s (e.g., $y = 0^k$ for some $k > 0$), we will always be able to pump $y$ by repeating or omitting occurrences of $0$s (i.e., consider strings $0^{p+k}1^p$ or $0^{p-k}1^p$), and the resulting strings will still belong to $0^*1^*$. Similarly, if we select $y$ to be a section of $s'$ containing only $1$s (e.g., $y = 1^k$ for some $k > 0$), we will always be able to pump $y$ by repeating or omitting occurrences of $1$s (i.e., consider strings $0^p1^{p+k}$ or $0^p1^{p-k}$); through this logic, we see that the selected string $s' = 0^p1^p$ can be pumped and will still fit within the structure of the language. Furthermore, pumping $y$ in any case still produces a valid string in $0^*1^*$, as it merely changes the number of $0$s and/or the number of $1$s while retaining the structure of some number of $0$s followed by some number of $1$s, which is allowed by the language.\\
 \\
-Conclusively, the root issue in the proof is the incorrect assumption that $0^*1^*$ behaves like $0^n1^n$, where the number of $0$'s must match the number of $1$'s. Instead, with $0^*1^*$, there is no such restriction on the relationship between the number of $0$'s and the number of $1$'s, meaning that the pumping lemma can be applied without generating strings that fall outside the language. Thus, the proof fails in its attempt to employ rationale pertaining to a non-regular language in $0^n1^n$ to show that the language $0^*1^*$ is also not regular, when, in fact, it is regular.
+Conclusively, the root issue in the proof is the incorrect assumption that the language $0^*1^*$ behaves like the language $0^n1^n$, where the number of $0$s must match the number of $1$s. Instead, with $0^*1^*$, there is no such restriction on the relationship between the number of $0$s and the number of $1$s, meaning that the pumping lemma can be applied without generating strings that fall outside the language. Thus, the proof fails in its attempt to employ similar rationale showing that the language $0^n1^n$ is not regular to show that the language $0^*1^*$ is also not regular, when, in fact, it is regular.
 }
 
 \vspace{12pt}
