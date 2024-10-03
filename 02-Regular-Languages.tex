@@ -199,9 +199,46 @@ Draw out \emph{DFA}s (not \emph{NFA}s) for each of the following languages. For 
 Prove that regular languages are closed under \emph{intersection}. Do this by starting with \emph{DFA}s for two regular languages $A$ and $B$, and describe how to construct a new \emph{DFA} for $A \cap B$\
 \\
 
-We start with two regular languages A and B, whose DFA's can be represented as $M_A = (Q_A, \Sigma, \delta_A, q_{A0}, F_A)$ and $M_B = (Q_B, \Sigma, \delta_B, q_{B0}, F_B)$. To construct a new DFA for $A \cap B$, say $M_C = (Q_A $ x $ Q_B, \Sigma, (\delta_A(q_A,a),\delta_A(q_A,a)) ,F_A $ x $ F_B)$, such that we would need to take the cross product and get all pairs of states and a transition function that simulates transitions for both DFAs $M_A $ and $ M_B$.\\
-\\
-Let w be any string in $\Sigma*$, we need to show that w $\in$ a language, $C$, accepted by $M_C$. If w exists in the set $A \cap B$, then it must reach accepting states in both A and B, such that $q_A \in F_A$ and $q_B \in F_B$ where $F_C$ will reach a state $(q_A, q_B)$. The string $w$ will be apart of the language $C$ by construction of the DFA for $C$ as it will only accept strings to be part of the language if it is in languages $A$ and $B$.
+\textbf{Proof:}  
+Let $A$ and $B$ be arbitrary regular languages.
+
+\begin{enumerate}
+    \item Since $A$ and $B$ are regular, there exist DFAs $M_A = (Q_A, \Sigma, \delta_A, q_{A0}, F_A)$ and $M_B = (Q_B, \Sigma, \delta_B, q_{B0}, F_B)$ that accept $A$ and $B$, respectively.
+    
+    \item Construct a new DFA $M_C = (Q_C, \Sigma, \delta_C, q_{C0}, F_C)$ for $A \cap B$ as follows:
+    \begin{itemize}
+        \item $Q_C = Q_A \times Q_B$ (Cartesian product of states)
+        \item $\Sigma$ is the same alphabet as in $M_A$ and $M_B$
+        \item $\delta_C((q_A, q_B), a) = (\delta_A(q_A, a), \delta_B(q_B, a))$ for all $(q_A, q_B) \in Q_C$ and $a \in \Sigma$
+        \item $q_{C0} = (q_{A0}, q_{B0})$ (pair of start states)
+        \item $F_C = F_A \times F_B$ (pairs of accepting states)
+    \end{itemize}
+    
+    \item We claim that $L(M_C) = A \cap B$. To prove this, we show that for all $w \in \Sigma^*$:
+    $$w \in L(M_C) \iff w \in A \text{ and } w \in B$$
+    
+    \textit{Proof of claim:}
+    \begin{itemize}
+        \item $(\Rightarrow)$ Let $w \in L(M_C)$. Then $\delta_C^*(q_{C0}, w) \in F_C$.
+        This means 
+        $$\delta_C^*(q_{C0}, w) = (q_A, q_B) \text{ where } q_A \in F_A \text{ and } q_B \in F_B.$$
+        Therefore, 
+        $$\delta_A^*(q_{A0}, w) \in F_A \text{ and } \delta_B^*(q_{B0}, w) \in F_B.$$
+        Thus, $w \in A$ and $w \in B$.
+        
+        \item $(\Leftarrow)$ Let $w \in A$ and $w \in B$. Then 
+        $$\delta_A^*(q_{A0}, w) \in F_A \text{ and } \delta_B^*(q_{B0}, w) \in F_B.$$
+        By construction of $M_C$,
+        $$\delta_C^*(q_{C0}, w) = (\delta_A^*(q_{A0}, w), \delta_B^*(q_{B0}, w)) \in F_C.$$
+        Therefore, $w \in L(M_C)$.
+    \end{itemize}
+    
+    \item Since $M_C$ is a valid DFA (it has a finite set of states, deterministic transitions, a start state, and a set of accepting states), $L(M_C)$ is a regular language.
+    
+    \item We have shown that for any two regular languages $A$ and $B$, their intersection $A \cap B$ is also regular.
+\end{enumerate}
+
+Therefore, regular languages are closed under intersection. $\qed$
 }
 
 %\delta((q_{A0}, q_{B0}), a) = 
@@ -212,11 +249,37 @@ Let w be any string in $\Sigma*$, we need to show that w $\in$ a language, $C$, 
 Prove that regular languages are closed under \emph{complement}. Do this by starting with a \emph{DFA} for a regular language $A$, and describe how to construct a new \emph{DFA} for $\bar{A}$.
 \\
 
-Let $M = (Q_A, \Sigma, \delta, q_0, F_A)$ be a DFA for the regular language $A$, where $Q_A$ is the set of states, $\Sigma$ is the alphabet, $\delta$ is the transition function, $q_0$ is the start state, and $F_A$ is the set of accepting states.\\
-\\
-To construct a DFA for the complement of $A$, denoted $\bar{A}$, we define a new DFA $M' = (Q_A, \Sigma, \delta, q_0, Q_A \setminus F_A)$. In this new DFA, the set of accepting states is $Q_A \setminus F_A$, meaning all states in $Q_A$ that were not accepting in $A$ are now accepting in $M'$.\\
-\\
-For any string $w$, if $w$ is in the language $A$, it is accepted by $M$, meaning the state reached after processing $w$ is in $F_A$. However, in $M'$, this same string $w$ will be rejected, as $w$ leads to a state that is not in the accepting set of $M'$. Conversely, if $w$ is not in $A$, it will be accepted by $M'$. This construction proves that the complement of a regular language is also regular.
+\textbf{Proof:}  
+Let $A$ be an arbitrary regular language.
+
+\begin{enumerate}
+    \item Since $A$ is regular, there exists a DFA $M = (Q, \Sigma, \delta, q_0, F)$ that accepts $A$.
+    
+    \item Construct a new DFA $M' = (Q, \Sigma, \delta, q_0, Q \setminus F)$ for $\bar{A}$ as follows:
+    \begin{itemize}
+        \item Keep the same set of states $Q$, alphabet $\Sigma$, transition function $\delta$, and start state $q_0$.
+        \item Change the set of accepting states to $Q \setminus F$ (all states that were non-accepting in $M$).
+    \end{itemize}
+    
+    \item We claim that $L(M') = \bar{A}$. To prove this, we show that for all $w \in \Sigma^*$:
+    $$w \in L(M') \iff w \notin L(M)$$
+    
+    \textit{Proof of claim:}
+    \begin{itemize}
+        \item Let $w \in \Sigma^*$ be an arbitrary string.
+        \item 
+        $$w \in L(M') \iff \delta^*(q_0, w) \in Q \setminus F$$
+        $$\iff \delta^*(q_0, w) \notin F$$
+        $$\iff w \notin L(M)$$
+    \end{itemize}
+    
+    \item Since $M'$ is a valid DFA (it has a finite set of states, deterministic transitions, a start state, and a set of accepting states), $L(M')$ is a regular language.
+    
+    \item We have shown that for any regular language $A$, its complement $\bar{A}$ is also regular.
+\end{enumerate}
+
+Therefore, regular languages are closed under complement. $\qed$
+
 }
 
 \vspace{12pt}
